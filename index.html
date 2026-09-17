@@ -121,6 +121,14 @@
             margin-bottom: 20px;
             white-space: pre-line;
         }
+
+        /* ปุ่มกดแบบต่างๆ */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
         .btn {
             background: #ff6b81;
             color: white;
@@ -131,6 +139,23 @@
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
             transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #ff4757;
+        }
+        .btn-back {
+            background: #a4b0be;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        .btn-back:hover {
+            background: #747d8c;
         }
 
         .floating-heart {
@@ -154,12 +179,13 @@
         <button class="start-btn" onclick="initAudio()">แตะตรงนี้เพื่อเปิดเลย! 🎵</button>
     </div>
 
-    <!-- ไฟล์เพลง (ใส่ Direct Link หรือชื่อไฟล์ที่วางคู่กับ index.html) -->
+    <!-- ไฟล์เพลง -->
     <audio id="bgMusic" loop playsinline preload="auto">
         <source src="nastelbom-happy-birthday-495860.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container">
+        <!-- หน้าแรก: เค้กวันเกิด -->
         <div class="cake-wrapper" id="cakeWrapper" onclick="openCard()">
             <video id="myCakeVideo" autoplay loop muted playsinline class="cake-video">
                 <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
@@ -169,6 +195,7 @@
             </p>
         </div>
 
+        <!-- หน้า 1: การ์ดอวยพรหลัก -->
         <div class="card" id="birthdayCard">
             <video autoplay loop muted playsinline class="profile-video">
                 <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
@@ -184,23 +211,28 @@
                 ❤️🥰
             </p>
 
-            <button class="btn" onclick="createHearts()">กดรับเค้กกก 💖</button>
+            <button class="btn" onclick="goToNextCard()">กดรับเค้กกก 💖</button>
         </div>
-    </div>
 
-      <div class="card" id="birthdayCard2">
-          <h1> ไม่มีอะไรหรอกครัล 🎂✨</h1>
+        <!-- หน้า 2: การ์ดถัดไป (มีปุ่มย้อนกลับ) -->
+        <div class="card" id="birthdayCard2">
+            <h1>ไม่มีอะไรหรอกครับ 🎂✨</h1>
             
             <p>
                 ❤️🥰
             </p>
-        <button class="btn" onclick="createHearts()">ลองกดอีกครั้งสิ </button>
+
+            <div class="btn-group">
+                <button class="btn-back" onclick="goBackToCard1()">⬅️ ย้อนกลับ</button>
+                <button class="btn" onclick="createHearts()">ลองกดอีกครั้งสิ 💖</button>
+            </div>
+        </div>
     </div>
+
     <script>
         const bgMusic = document.getElementById('bgMusic');
 
         function initAudio() {
-            // ปลดล็อกระบบ Audio ของเบราว์เซอร์มือถือ
             if (bgMusic) {
                 bgMusic.play().then(() => {
                     document.getElementById('startOverlay').style.display = 'none';
@@ -217,7 +249,6 @@
             const cakeWrapper = document.getElementById('cakeWrapper');
             const card = document.getElementById('birthdayCard');
 
-            // บังคับเล่นเพลงอีกครั้ง
             if (bgMusic && bgMusic.paused) {
                 bgMusic.play();
             }
@@ -228,19 +259,35 @@
             startHeartEffect();
             createHearts();
         }
-        // กำหนดจำนวนวินาทีที่ต้องการให้เล่นวนซ้ำ (เช่น วนลูปเฉพาะ 5 วินาทีแรก)
-        const loopDuration = 3; 
 
-        const cakeVideo = document.getElementById('myCakeVideo');
+        // สลับไปหน้าถัดไป (จากหน้าอวยพร -> birthdayCard2)
+        function goToNextCard() {
+            const card1 = document.getElementById('birthdayCard');
+            const card2 = document.getElementById('birthdayCard2');
 
-            if (cakeVideo) {
-        cakeVideo.addEventListener('timeupdate', function() {
-        // เมื่อเวลาเล่นถึงจำนวนวินาทีที่กำหนด ให้รีเซ็ตกลับไปที่ 0
-        if (this.currentTime >= loopDuration) {
-            this.currentTime = 0;
-            this.play();
-                    }
-                });
+            card1.classList.remove('show');
+            card1.style.display = 'none';
+
+            card2.style.display = 'block';
+            setTimeout(() => {
+                card2.classList.add('show');
+            }, 50);
+
+            createHearts();
+        }
+
+        // สลับย้อนกลับ (จาก birthdayCard2 -> หน้าอวยพร)
+        function goBackToCard1() {
+            const card1 = document.getElementById('birthdayCard');
+            const card2 = document.getElementById('birthdayCard2');
+
+            card2.classList.remove('show');
+            card2.style.display = 'none';
+
+            card1.style.display = 'block';
+            setTimeout(() => {
+                card1.classList.add('show');
+            }, 50);
         }
 
         function createHeart() {
