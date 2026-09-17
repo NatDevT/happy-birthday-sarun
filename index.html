@@ -25,51 +25,27 @@
             max-width: 500px;
             width: 90%;
         }
-        /* ซองจดหมาย */
-        .envelope-wrapper {
+        /* ปุ่มรูปเค้กหน้าแรก */
+        .cake-wrapper {
             cursor: pointer;
-            perspective: 1000px;
             margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
-        .envelope {
-            width: 280px;
-            height: 180px;
-            background: #ff6b81;
-            margin: 0 auto;
-            position: relative;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            transition: transform 0.3s;
+        .cake-wrapper:hover {
+            transform: scale(1.08);
         }
-        .envelope:hover {
-            transform: scale(1.03);
+        .cake-img {
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0 10px 15px rgba(255, 107, 129, 0.4));
+            animation: floatCake 2.5s infinite ease-in-out;
         }
-        .envelope::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            border-left: 140px solid transparent;
-            border-right: 140px solid transparent;
-            border-top: 100px solid #ff4757;
-            transform-origin: top;
-            transition: transform 0.5s 0.3s;
-            z-index: 3;
+        @keyframes floatCake {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
-        .envelope.open::before {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-        .heart-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 40px;
-            color: #fff;
-            z-index: 4;
-            transition: opacity 0.3s;
-        }
+
         /* การ์ดอวยพร */
         .card {
             background: rgba(255, 255, 255, 0.95);
@@ -121,10 +97,10 @@
         .btn:hover {
             background: #ff4757;
         }
-        /* หัวใจลอย */
+
+        /* หัวใจและเค้กลอย */
         .floating-heart {
             position: fixed;
-            font-size: 20px;
             animation: floatUp 4s linear infinite;
             opacity: 0;
             z-index: 999;
@@ -138,17 +114,16 @@
 <body>
 
     <div class="container">
-        <!-- ซองจดหมายสำหรับกดเปิด -->
-        <div class="envelope-wrapper" id="envelopeWrapper" onclick="openCard()">
-            <div class="envelope" id="envelope">
-                <div class="heart-btn">💌</div>
-            </div>
-            <p style="margin-top: 15px; color: #ff4757; font-weight: bold;">กดที่ซองจดหมายเพื่อเปิดดูสิคะ/ครับ ❤️</p>
+        <!-- เปลี่ยนจากซองจดหมายเป็นปุ่มเค้กวันเกิด -->
+        <div class="cake-wrapper" id="cakeWrapper" onclick="openCard()">
+            <img src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png" alt="เค้กวันเกิด" class="cake-img">
+            <p style="margin-top: 15px; color: #ff4757; font-weight: bold; font-size: 1.1rem;">
+                ลองกดที่เค้กดูสิครับ 🎂✨
+            </p>
         </div>
 
         <!-- การ์ดข้อความอวยพร -->
         <div class="card" id="birthdayCard">
-            <!-- เปลี่ยนรูปเป็นเค้กวันเกิดหวานๆ -->
             <img src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=600" alt="เค้กวันเกิด" class="profile-img">
             
             <h1>Happy Birthday นะครับ 🎂✨</h1>
@@ -158,7 +133,7 @@
                 สุขภาพร่างกายแข็งแรง รวยๆเฮงๆ ปราศจากโรคภัยไข้เจ็บ
                 จงมีแต่ความสุข การงานราบรื่น การเรียนขอให้ผ่านพ้นไปด้วยดี
                 ขอให้ปีนี้เป็นปีที่ดี มีแต่เรื่องดีๆ เข้ามานะครับ 
-                ! ❤️🥰
+                ❤️🥰
             </p>
 
             <button class="btn" onclick="createHearts()">กดรับเค้กกก 💖</button>
@@ -167,25 +142,28 @@
 
     <script>
         function openCard() {
-            const envelope = document.getElementById('envelope');
-            const envelopeWrapper = document.getElementById('envelopeWrapper');
+            const cakeWrapper = document.getElementById('cakeWrapper');
             const card = document.getElementById('birthdayCard');
 
-            envelope.classList.add('open');
+            cakeWrapper.style.display = 'none';
+            card.classList.add('show');
             
-            setTimeout(() => {
-                envelopeWrapper.style.display = 'none';
-                card.classList.add('show');
-                startHeartEffect();
-            }, 800);
+            startHeartEffect();
+            createHearts();
         }
 
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
-            heart.innerHTML = ['💖', '🎂', '✨'][Math.floor(Math.random() * 5)];
+            
+            // สุ่มหัวใจ เค้ก และประกายดาว
+            const icons = ['💖', '🎂', '💕', '🍰', '✨', '🧁'];
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.fontSize = (Math.random() * 12 + 18) + 'px';
+            heart.style.animationDuration = Math.random() * 2 + 2.5 + 's';
+            
             document.body.appendChild(heart);
 
             setTimeout(() => {
@@ -194,12 +172,12 @@
         }
 
         function startHeartEffect() {
-            setInterval(createHeart, 400);
+            setInterval(createHeart, 350);
         }
 
         function createHearts() {
-            for(let i = 0; i < 15; i++) {
-                setTimeout(createHeart, i * 100);
+            for(let i = 0; i < 18; i++) {
+                setTimeout(createHeart, i * 90);
             }
         }
     </script>
