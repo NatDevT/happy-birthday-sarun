@@ -7,7 +7,8 @@
     <!-- ข้อความพรีวิวเวลาส่งลิงก์ใน LINE -->
     <title>Happy Birthday To Sarun 🎂💖</title>
     <meta property="og:title" content="Happy Birthday To Sarun 🎂💖">
-    <meta property="og:description" content="มีของขวัญเค้กวันเกิดสุดพิเศษมาให้ ลองกดเข้ามาดูสิครับ 🎁✨">
+    <meta property="og:description" content="มีของขวัญเค้กวันเกิดน่ารักๆ มาให้ ลองกดเข้ามาดูสิครับ 🎁✨">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600">
 
     <style>
         * {
@@ -22,17 +23,17 @@
             justify-content: center;
             align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
 
-        /* ฉากหลังเอฟเฟกต์ดาววิ้งๆ ลอยกระจาย */
+        /* Canvas ฉากหลังวิ้งๆ สไตล์ TikTok */
         #sparkleCanvas {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 1;
         }
@@ -46,75 +47,72 @@
             z-index: 10;
         }
         
-        /* โครงสร้างปุ่มเค้กวันเกิด 3D */
+        /* สไตล์และการเคลื่อนไหวของปุ่มวิดีโอเค้ก */
         .cake-wrapper {
             cursor: pointer;
             margin-bottom: 20px;
             display: inline-block;
-            position: relative;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .cake-wrapper:hover {
             transform: scale(1.06);
         }
-        
-        /* รูปเค้กพร้อมเงาลอยแบบ 3D */
-        .cake-img {
+        .cake-video {
             width: 100%;
-            max-width: 360px;
+            max-width: 380px;
             height: auto;
-            border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(255, 71, 87, 0.35), 0 0 30px rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(255, 71, 87, 0.35), 0 0 25px rgba(255, 255, 255, 0.6);
+            object-fit: cover;
             animation: floatGlow 3.5s infinite ease-in-out;
         }
 
-        /* เอฟเฟกต์เค้กลอยดุ๊กดิ๊กนุ่มนวล + แสงเรืองรอบๆ */
         @keyframes floatGlow {
             0%, 100% { 
                 transform: translateY(0);
-                filter: drop-shadow(0 10px 15px rgba(255, 107, 129, 0.4)) brightness(1);
+                filter: brightness(1);
             }
             50% { 
-                transform: translateY(-12px);
-                filter: drop-shadow(0 25px 25px rgba(255, 71, 87, 0.5)) brightness(1.08);
+                transform: translateY(-10px);
+                filter: brightness(1.08);
             }
         }
 
         /* การ์ดอวยพร */
         .card {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.93);
+            backdrop-filter: blur(8px);
             padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
             display: none;
             opacity: 0;
-            transform: translateY(30px) scale(0.9);
-            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
         }
         .card.show {
             display: block;
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
-        .profile-img {
+        .profile-video {
             width: 100%;
-            max-width: 300px;
+            max-width: 320px;
             height: auto;
             border-radius: 20px;
             border: 4px solid #ff6b81;
             margin-bottom: 15px;
-            box-shadow: 0 10px 20px rgba(255, 107, 129, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 107, 129, 0.3);
+            object-fit: cover;
         }
         h1 {
             color: #ff4757;
             font-size: 1.8rem;
-            margin-bottom: 12px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
         }
         p {
             color: #444;
-            line-height: 1.7;
+            line-height: 1.6;
             font-size: 1.05rem;
             margin-bottom: 20px;
             white-space: pre-line;
@@ -123,20 +121,20 @@
             background: linear-gradient(45deg, #ff6b81, #ff4757);
             color: white;
             border: none;
-            padding: 14px 30px;
-            border-radius: 30px;
-            font-size: 1.1rem;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
             transition: all 0.3s ease;
         }
         .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 12px 25px rgba(255, 71, 87, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 129, 0.6);
         }
 
-        /* หัวใจลอย */
+        /* หัวใจและเค้กลอย */
         .floating-heart {
             position: fixed;
             animation: floatUp 4s linear infinite;
@@ -145,28 +143,32 @@
             pointer-events: none;
         }
         @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0.6) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.3) rotate(360deg); opacity: 0; }
+            0% { transform: translateY(100vh) scale(0.8) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- พื้นหลังเอฟเฟกต์ละอองดาวกะพริบวิ้งๆ -->
+    <!-- ฉากหลังเอฟเฟกต์ละอองดาวกะพริบวิ้งๆ -->
     <canvas id="sparkleCanvas"></canvas>
 
     <div class="container">
-        <!-- หน้าเค้กวันเกิด 3D หน้าแรก -->
+        <!-- ปุ่มเค้กวันเกิดหน้าแรก (ดึงไฟล์วิดีโอ MP4) -->
         <div class="cake-wrapper" id="cakeWrapper" onclick="openCard()">
-            <img src="cake.mp4" alt="เค้กวันเกิด 3D" class="cake-img" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800'">
-            <p style="margin-top: 18px; color: #ff4757; font-weight: bold; font-size: 1.2rem; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">
+            <video id="cakeVideo1" autoplay loop muted playsinline class="cake-video">
+                <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
+            </video>
+            <p style="margin-top: 15px; color: #ff4757; font-weight: bold; font-size: 1.15rem; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">
                 ลองกดที่เค้กดูสิครับ 🎂✨
             </p>
         </div>
 
         <!-- การ์ดข้อความอวยพร -->
         <div class="card" id="birthdayCard">
-            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800" alt="เค้กวันเกิด" class="profile-img">
+            <video id="cakeVideo2" autoplay loop muted playsinline class="profile-video">
+                <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
+            </video>
             
             <h1>Happy Birthday นะครับ 🎂✨</h1>
             
@@ -174,7 +176,7 @@
                 ขอให้มีความสุขมากๆ ในวันเกิดปีนี้นะครับ
                 สุขภาพร่างกายแข็งแรง รวยๆเฮงๆ ปราศจากโรคภัยไข้เจ็บ
                 จงมีแต่ความสุข การงานราบรื่น การเรียนขอให้ผ่านพ้นไปด้วยดี
-                ขอให้ปีนี้เป็นปีที่ดี มีแต่เรื่องดีๆ เข้ามานะครับ 
+                ขอให้สอบผ่านได้โดยง่ายยยย มีแต่เรื่องดีๆ เข้ามานะครับ 
                 ❤️🥰
             </p>
 
@@ -183,7 +185,19 @@
     </div>
 
     <script>
-        // 1. ระบบสร้างเอฟเฟกต์ละอองดาววิบวับลอยกระจายเต็มจอ (Sparkles/Glitter)
+        // 1. ระบบบังคับวิดีโอเล่นอัตโนมัติ (Autoplay Fix)
+        window.addEventListener('DOMContentLoaded', () => {
+            const v1 = document.getElementById('cakeVideo1');
+            const v2 = document.getElementById('cakeVideo2');
+            [v1, v2].forEach(v => {
+                if (v) {
+                    v.muted = true;
+                    v.play().catch(e => console.log("Autoplay blocked:", e));
+                }
+            });
+        });
+
+        // 2. เอฟเฟกต์ละอองดาวระยิบระยับเต็มหน้าจอ (Sparkles)
         const canvas = document.getElementById('sparkleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -202,8 +216,8 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedY = Math.random() * -0.8 - 0.2;
+                this.size = Math.random() * 2.5 + 1;
+                this.speedY = Math.random() * -0.6 - 0.2;
                 this.opacity = Math.random();
                 this.fadeSpeed = Math.random() * 0.02 + 0.005;
             }
@@ -219,13 +233,13 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.shadowBlur = 8;
+                ctx.shadowBlur = 6;
                 ctx.shadowColor = '#fff';
                 ctx.fill();
             }
         }
 
-        for (let i = 0; i < 70; i++) {
+        for (let i = 0; i < 60; i++) {
             particles.push(new Particle());
         }
 
@@ -239,48 +253,44 @@
         }
         animateSparkles();
 
-        // 2. ระบบเปิดการ์ดอวยพรเมื่อกดที่เค้ก
+        // 3. ฟังก์ชันเปิดการ์ด
         function openCard() {
             const cakeWrapper = document.getElementById('cakeWrapper');
             const card = document.getElementById('birthdayCard');
 
-            cakeWrapper.style.transform = 'scale(0.8)';
-            cakeWrapper.style.opacity = '0';
+            cakeWrapper.style.display = 'none';
+            card.classList.add('show');
             
-            setTimeout(() => {
-                cakeWrapper.style.display = 'none';
-                card.classList.add('show');
-                startHeartEffect();
-                createHearts();
-            }, 400);
+            startHeartEffect();
+            createHearts();
         }
 
-        // 3. ระบบหัวใจและเค้กจิ๋วลอยขึ้นฟ้า
+        // 4. ฟังก์ชันเอฟเฟกต์หัวใจลอย
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
             
-            const icons = ['💖', '🎂', '✨', '💕', '🧁', '⭐'];
+            const icons = ['💖', '🎂', '💕', '🍰', '✨', '🧁', '⭐'];
             heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
             
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 14 + 18) + 'px';
+            heart.style.fontSize = (Math.random() * 12 + 18) + 'px';
             heart.style.animationDuration = Math.random() * 2 + 2.5 + 's';
             
             document.body.appendChild(heart);
 
             setTimeout(() => {
                 heart.remove();
-            }, 4500);
+            }, 5000);
         }
 
         function startHeartEffect() {
-            setInterval(createHeart, 300);
+            setInterval(createHeart, 350);
         }
 
         function createHearts() {
-            for(let i = 0; i < 20; i++) {
-                setTimeout(createHeart, i * 80);
+            for(let i = 0; i < 18; i++) {
+                setTimeout(createHeart, i * 90);
             }
         }
     </script>
