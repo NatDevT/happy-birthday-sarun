@@ -116,13 +116,14 @@
     <div class="container">
         <!-- ปุ่มเค้กวันเกิดหน้าแรก (ดึงไฟล์วิดีโอ MP4) -->
         <div class="cake-wrapper" id="cakeWrapper" onclick="openCard()">
-            <video autoplay loop muted playsinline class="cake-video">
-                <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
-            </video>
+            <video id="myCakeVideo" autoplay loop muted playsinline class="cake-video" style="width:100%; max-width:380px; border-radius:20px;">
+    <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
+</video>
             <p style="margin-top: 15px; color: #ff4757; font-weight: bold; font-size: 1.1rem;">
                 ลองกดที่เค้กดูสิครับ 🎂✨
             </p>
         </div>
+        
 
         <!-- การ์ดข้อความอวยพร -->
         <div class="card" id="birthdayCard">
