@@ -120,16 +120,18 @@
     </style>
 </head>
 <body>
-<!-- 1. เพิ่มแท็กเสียง audio (อย่าลืมเปลี่ยนไฟล์เพลงเป็นของคุณเอง) -->
-    <audio id="bgMusic" loop>
+
+    <!-- แท็กเล่นเพลง -->
+    <audio id="bgMusic" loop preload="auto">
         <source src="nastelbom-happy-birthday-495860.mp3" type="audio/mpeg">
     </audio>
+
     <div class="container">
-        <!-- ปุ่มเค้กวันเกิดหน้าแรก (ดึงไฟล์วิดีโอ MP4) -->
+        <!-- ปุ่มเค้กวันเกิดหน้าแรก -->
         <div class="cake-wrapper" id="cakeWrapper" onclick="openCard()">
             <video id="myCakeVideo" autoplay loop muted playsinline class="cake-video" style="width:100%; max-width:380px; border-radius:20px;">
-    <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
-</video>
+                <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
+            </video>
             <p style="margin-top: 15px; color: #ff4757; font-weight: bold; font-size: 1.1rem;">
                 ลองกดดูสิ 🎂✨
             </p>
@@ -157,17 +159,36 @@
     </div>
 
     <script>
+        const bgMusic = document.getElementById('bgMusic');
+
+        // ฟังก์ชันสั่งเล่นเพลง
+        function playAudio() {
+            if (bgMusic && bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    // ลบ Event Listener ออกเมื่อเพลงเริ่มเล่นแล้ว
+                    document.removeEventListener('click', playAudio);
+                    document.removeEventListener('touchstart', playAudio);
+                }).catch(error => {
+                    console.log("Autoplay was blocked:", error);
+                });
+            }
+        }
+
+        // 1. พยายามสั่งเล่นทันทีที่โหลดหน้าเว็บ
+        window.addEventListener('DOMContentLoaded', () => {
+            playAudio();
+        });
+
+        // 2. ดักจับการแตะ/คลิกครั้งแรกทุกตำแหน่งบนหน้าจอเพื่อบังคับเล่นเพลงทันที
+        document.addEventListener('click', playAudio);
+        document.addEventListener('touchstart', playAudio);
+
         function openCard() {
             const cakeWrapper = document.getElementById('cakeWrapper');
             const card = document.getElementById('birthdayCard');
-            const bgMusic = document.getElementById('bgMusic');
 
-            // 2. สั่งเล่นเพลงเมื่อกดที่เค้ก
-            if (bgMusic) {
-                bgMusic.play().catch(error => {
-                    console.log("Autoplay was prevented:", error);
-                });
-            }
+            // บังคับสั่งเล่นเพลงอีกครั้งเมื่อกดเค้ก
+            playAudio();
 
             cakeWrapper.style.display = 'none';
             card.classList.add('show');
