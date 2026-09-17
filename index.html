@@ -212,6 +212,7 @@
             </p>
 
             <button class="btn" onclick="goToNextCard()">กดรับเค้กกก 💖</button>
+            <button class="btn" onclick="createHearts()">ลองกดดูสิจะมีอะไรอีกไหม 💖</button>
         </div>
 
         <!-- หน้า 2: การ์ดถัดไป (มีปุ่มย้อนกลับ) -->
@@ -224,7 +225,30 @@
 
             <div class="btn-group">
                 <button class="btn-back" onclick="goBackToCard1()">⬅️ ย้อนกลับ</button>
+                <button class="btn" onclick="goToNextCard()">ลองกดอีกครั้งสิ 💖</button>
+            </div>
+           <!-- หน้า 3: การ์ด (มีปุ่มย้อนกลับ) -->
+             <div class="card" id="birthdayCard3">
+            <h1>ก็ยังไม่มีอะไร 🎂✨</h1>
+            
+            <p>
+                ❤️🥰
+            </p>
+
+            <div class="btn-group">
+                <button class="btn-back" onclick="goBackToCard1()">⬅️ ย้อนกลับ</button>
                 <button class="btn" onclick="createHearts()">ลองกดอีกครั้งสิ 💖</button>
+            </div>
+            <!-- หน้า 4: การ์ด (มีปุ่มย้อนกลับ) -->
+             <div class="card" id="birthdayCard3">
+            <h1>ไม่มีอะไร  🎂✨</h1>
+            
+            <p>
+                อยากจะอวยพรวันเกิดให้ 👇👇👇
+            </p>
+
+            <div class="btn-group">
+                <button class="btn-back" onclick="goBackToCard1()">🎂 อวยพรวันเกิด 🎂</button>
             </div>
         </div>
     </div>
@@ -264,6 +288,8 @@
         function goToNextCard() {
             const card1 = document.getElementById('birthdayCard');
             const card2 = document.getElementById('birthdayCard2');
+            const card3 = document.getElementById('birthdayCard3');
+            const card4 = document.getElementById('birthdayCard4');
 
             card1.classList.remove('show');
             card1.style.display = 'none';
