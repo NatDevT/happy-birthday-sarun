@@ -1,270 +1,208 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday! 🎂</title>
-  <style>
-    :root {
-      --bg-color: #ffeaa7;
-      --card-bg: #ffffff;
-      --primary: #ff7675;
-      --accent: #fd79a8;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 1. เปลี่ยนชื่อที่แสดงบนแถบเบราว์เซอร์ -->
+    <title>Happy Birthday To Sarun 🎂💖</title>
 
-    body {
-      margin: 0;
-      padding: 20px;
-      background-color: var(--bg-color);
-      font-family: 'Sukhumvit Set', 'Kanit', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #2d3436;
-    }
+    <!-- 2. เปลี่ยนชื่อหัวข้อตัวหนาเมื่อส่งลิงก์ใน LINE -->
+    <meta property="og:title" content="Happy Birthday To Sarun 🎂💖">
+    
+    <!-- 3. เปลี่ยนข้อความบรรยายสั้นๆ บรรทัดล่างเมื่อส่งใน LINE -->
+    <meta property="og:description" content="มีของขวัญเค้กวันเกิดน่ารักๆ มาให้ ลองกดเข้ามาดูสิครับ 🎁✨">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #ffe6eb 0%, #ffb6c1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        /* สไตล์และการเคลื่อนไหวของปุ่มวิดีโอเค้ก */
+        .cake-wrapper {
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .cake-wrapper:hover {
+            transform: scale(1.05);
+        }
+        .cake-video {
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 107, 129, 0.4);
+            object-fit: cover;
+        }
 
-    .container {
-      max-width: 500px;
-      width: 100%;
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        /* การ์ดอวยพร */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .card.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .profile-video {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            border-radius: 20px;
+            border: 4px solid #ff6b81;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(255, 107, 129, 0.3);
+            object-fit: cover;
+        }
+        h1 {
+            color: #ff4757;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+        .btn {
+            background: #ff6b81;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #ff4757;
+        }
 
-    h1 { color: var(--primary); margin-bottom: 5px; }
-    p { color: #636e72; }
-
-    /* --- 1. Cake & Candle Section --- */
-    .cake-container {
-      position: relative;
-      margin: 30px auto 10px;
-      width: 120px;
-      height: 100px;
-      background: #fab1a0;
-      border-radius: 10px 10px 0 0;
-      box-shadow: inset 0 -15px 0 #e17055;
-    }
-    .candle {
-      width: 12px;
-      height: 35px;
-      background: #74b9ff;
-      position: absolute;
-      top: -35px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 3px;
-    }
-    .flame {
-      width: 14px;
-      height: 20px;
-      background: #ffce54;
-      border-radius: 50% 50% 20% 20%;
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      cursor: pointer;
-      box-shadow: 0 0 10px #ffce54;
-      animation: flicker 0.6s infinite alternate;
-    }
-    .flame.off {
-      display: none;
-    }
-    @keyframes flicker {
-      0% { transform: translateX(-50%) scale(1); }
-      100% { transform: translateX(-50%) scale(1.1); }
-    }
-
-    /* --- 2. Wish Input --- */
-    input[type="text"] {
-      width: 80%;
-      padding: 10px;
-      border: 2px solid #dfe6e9;
-      border-radius: 10px;
-      margin-top: 10px;
-      outline: none;
-    }
-    button.btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-top: 10px;
-      transition: 0.2s;
-    }
-    button.btn:hover { background: #e84393; }
-
-    /* --- 3. Gift Box --- */
-    .gift-box {
-      font-size: 50px;
-      cursor: pointer;
-      transition: transform 0.3s;
-      display: inline-block;
-    }
-    .gift-box:hover { transform: scale(1.1); }
-    .gift-content {
-      display: none;
-      background: #ffeaa7;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-
-    /* --- 4. Slideshow --- */
-    .slideshow-container {
-      position: relative;
-      max-width: 100%;
-      height: 250px;
-      overflow: hidden;
-      border-radius: 15px;
-      margin-top: 15px;
-    }
-    .slide {
-      display: none;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* --- 5. Interactive Love Question --- */
-    .love-section {
-      position: relative;
-      height: 120px;
-    }
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 15px;
-    }
-    #no-btn {
-      position: absolute;
-      background: #b2bec3;
-    }
-  </style>
+        /* หัวใจและเค้กลอย */
+        .floating-heart {
+            position: fixed;
+            animation: floatUp 4s linear infinite;
+            opacity: 0;
+            z-index: 999;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
+<!-- 1. เพิ่มแท็กเสียง audio (อย่าลืมเปลี่ยนไฟล์เพลงเป็นของคุณเอง) -->
+    <audio id="bgMusic" loop>
+        <source src="nastelbom-happy-birthday-495860" type="audio/mpeg">
+    </audio>
+    <div class="container">
+        <!-- ปุ่มเค้กวันเกิดหน้าแรก (ดึงไฟล์วิดีโอ MP4) -->
+        <div class="cake-wrapper" id="cakeWrapper" onclick="openCard()">
+            <video id="myCakeVideo" autoplay loop muted playsinline class="cake-video" style="width:100%; max-width:380px; border-radius:20px;">
+    <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
+</video>
+            <p style="margin-top: 15px; color: #ff4757; font-weight: bold; font-size: 1.1rem;">
+                ลองกดที่เค้กดูสิครับ 🎂✨
+            </p>
+        </div>
+        
 
-  <!-- เพลงประกอบ (เปลี่ยนไฟล์ mp3 ตรง src ได้ครับ) -->
-  <audio id="bgm" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>
+        <!-- การ์ดข้อความอวยพร -->
+        <div class="card" id="birthdayCard">
+            <video autoplay loop muted playsinline class="profile-video">
+                <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
+            </video>
+            
+            <h1>Happy Birthday นะครับ 🎂✨</h1>
+            
+            <p>
+                ขอให้มีความสุขมากๆ ในวันเกิดปีนี้นะครับ
+                สุขภาพร่างกายแข็งแรง รวยๆเฮงๆ ปราศจากโรคภัยไข้เจ็บ
+                จงมีแต่ความสุข การงานราบรื่น การเรียนขอให้ผ่านพ้นไปด้วยดี
+                ขอให้สอบผ่านได้โดยง่ายยยย มีแต่เรื่องดีๆ เข้ามานะครับ 
+                ❤️🥰
+            </p>
 
-  <div class="container">
-    <h1>Happy Birthday! 💖</h1>
-    <p>กดที่เปลวไฟเพื่อดับเทียนเป่าเค้กนะ!</p>
-
-    <!-- 1. Cake & Candle -->
-    <div class="cake-container">
-      <div class="candle">
-        <div class="flame" id="flame" onclick="blowCandle()"></div>
-      </div>
+            <button class="btn" onclick="createHearts()">กดรับเค้กกก 💖</button>
+        </div>
     </div>
-    <p id="cake-msg" style="font-weight: bold; color: var(--accent);"></p>
 
-    <!-- 2. Wish Box -->
-    <div style="margin-top: 20px;">
-      <p>✨ อธิษฐานขอพรวันเกิดตรงนี้สิ:</p>
-      <input type="text" id="wishInput" placeholder="พิมพ์คำขอพรของคุณ...">
-      <br>
-      <button class="btn" onclick="sendWish()">ส่งคำขอพร 🎈</button>
-      <p id="wishResult" style="color: #00b894;"></p>
-    </div>
-  </div>
+    <script>
+        function openCard() {
+            const cakeWrapper = document.getElementById('cakeWrapper');
+            const card = document.getElementById('birthdayCard');
+            const bgMusic = document.getElementById('bgMusic');
 
-  <div class="container">
-    <!-- 3. Gift Box -->
-    <h3>🎁 มีของขวัญมาให้ ลองกดเปิดสิ!</h3>
-    <div class="gift-box" onclick="openGift()">🎁</div>
-    <div class="gift-content" id="giftContent">
-      🎉 สุขสันต์วันเกิดนะ! ขอให้มีความสุขมากๆ สุขภาพแข็งแรง น่ารักแบบนี้ตลอดไปเลยนะ ❤️
-    </div>
-  </div>
+            // 2. สั่งเล่นเพลงเมื่อกดที่เค้ก
+            if (bgMusic) {
+                bgMusic.play().catch(error => {
+                    console.log("Autoplay was prevented:", error);
+                });
+            }
 
-  <div class="container">
-    <!-- 4. Photo/Video Slideshow -->
-    <h3>📸 ความทรงจำของเรา</h3>
-    <div class="slideshow-container">
-      <!-- เปลี่ยน src เป็นรูปภาพหรือวิดีโอของคุณได้เลย -->
-      <img class="slide" src="https://picsum.photos/400/300?random=1" alt="รูป1">
-      <img class="slide" src="https://picsum.photos/400/300?random=2" alt="รูป2">
-      <!-- ตัวอย่างวิดีโอ (ถ้าต้องการใช้) -->
-      <!-- <video class="slide" src="your-video.mp4" autoplay loop muted></video> -->
-    </div>
-  </div>
+            cakeWrapper.style.display = 'none';
+            card.classList.add('show');
+            
+            startHeartEffect();
+            createHearts();
+        }
 
-  <div class="container love-section">
-    <!-- 5. Love Question -->
-    <h3>รักเค้าไหม? 🥺</h3>
-    <div class="btn-group">
-      <button class="btn" onclick="acceptLove()">รักที่สุด ❤️</button>
-      <button class="btn" id="no-btn" onmouseover="moveNoButton()">ไม่รัก 😜</button>
-    </div>
-  </div>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            
+            const icons = ['💖', '🎂', '💕', '🍰', '✨', '🧁'];
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 12 + 18) + 'px';
+            heart.style.animationDuration = Math.random() * 2 + 2.5 + 's';
+            
+            document.body.appendChild(heart);
 
-  <script>
-    // 1. Blow Candle
-    function blowCandle() {
-      document.getElementById('flame').classList.add('off');
-      document.getElementById('cake-msg').innerText = "🥳 เพี้ยง! ขอให้คำอธิษฐานเป็นจริงนะ!";
-      // เล่นเพลงเมื่อกดเป่าเทียน
-      var audio = document.getElementById("bgm");
-      audio.play();
-    }
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
 
-    // 2. Wish Input
-    function sendWish() {
-      var wish = document.getElementById('wishInput').value;
-      if (wish.trim() !== "") {
-        document.getElementById('wishResult').innerText = "เก็บคำขอพร: \"" + wish + "\" ไว้ให้แล้วนะ 🌟";
-        document.getElementById('wishInput').value = "";
-      }
-    }
+        function startHeartEffect() {
+            setInterval(createHeart, 350);
+        }
 
-    // 3. Open Gift
-    function openGift() {
-      var content = document.getElementById('giftContent');
-      if (content.style.display === "none" || content.style.display === "") {
-        content.style.display = "block";
-      } else {
-        content.style.display = "none";
-      }
-    }
-
-    // 4. Slideshow
-    let slideIndex = 0;
-    showSlides();
-
-    function showSlides() {
-      let i;
-      let slides = document.getElementsByClassName("slide");
-      for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";  
-      }
-      slideIndex++;
-      if (slideIndex > slides.length) {slideIndex = 1}    
-      slides[slideIndex-1].style.display = "block";  
-      setTimeout(showSlides, 3000); // เปลี่ยนรูปทุกๆ 3 วินาที
-    }
-
-    // 5. Runaway No Button
-    function moveNoButton() {
-      var btn = document.getElementById('no-btn');
-      var x = Math.random() * (window.innerWidth - 100);
-      var y = Math.random() * (window.innerHeight - 50);
-      btn.style.left = x + 'px';
-      btn.style.top = y + 'px';
-    }
-
-    function acceptLove() {
-      alert("เย้! เค้ารักเธอเหมือนกันนะ 🥰❤️");
-    }
-  </script>
+        function createHearts() {
+            for(let i = 0; i < 18; i++) {
+                setTimeout(createHeart, i * 90);
+            }
+        }
+    </script>
 </body>
 </html>
