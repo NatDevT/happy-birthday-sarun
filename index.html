@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love 💖</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #ffe6eb 0%, #ffb6c1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+            width: 90%;
+        }
+        /* ซองจดหมาย */
+        .envelope-wrapper {
+            cursor: pointer;
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+        .envelope {
+            width: 280px;
+            height: 180px;
+            background: #ff6b81;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+        }
+        .envelope:hover {
+            transform: scale(1.03);
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #ff4757;
+            transform-origin: top;
+            transition: transform 0.5s 0.3s;
+            z-index: 3;
+        }
+        .envelope.open::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        .heart-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #fff;
+            z-index: 4;
+            transition: opacity 0.3s;
+        }
+        /* การ์ดอวยพร */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .card.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff6b81;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.3);
+        }
+        h1 {
+            color: #ff4757;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+        .btn {
+            background: #ff6b81;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #ff4757;
+        }
+        /* หัวใจลอย */
+        .floating-heart {
+            position: fixed;
+            font-size: 20px;
+            animation: floatUp 4s linear infinite;
+            opacity: 0;
+            z-index: 999;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ซองจดหมายสำหรับกดเปิด -->
+        <div class="envelope-wrapper" id="envelopeWrapper" onclick="openCard()">
+            <div class="envelope" id="envelope">
+                <div class="heart-btn">💌</div>
+            </div>
+            <p style="margin-top: 15px; color: #ff4757; font-weight: bold;">กดที่ซองจดหมายเพื่อเปิดดูสิคะ/ครับ ❤️</p>
+        </div>
+
+        <!-- การ์ดข้อความอวยพร -->
+        <div class="card" id="birthdayCard">
+            <!-- เปลี่ยนรูปภาพแฟนตรงนี้ -->
+            <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=500" alt="รูปแฟน" class="profile-img">
+            
+            <h1>Happy Birthday นะคะคนดี 🎂✨</h1>
+            
+            <p>
+                มีความสุขมากๆ ในวันเกิดปีนี้นะครับ
+                ขอบคุณที่เป็นรอยยิ้มและความสุขให้กันเสมอ
+                ขอให้ปีนี้เป็นปีที่ดี มีแต่เรื่องน่ารักๆ เข้ามา
+                เค้าจะอยู่เคียงข้างและเป็นกำลังใจให้ตัวเธอแบบนี้ไปนานๆ เลยนะ
+                รักนะตัวแสบ! ❤️🥰
+            </p>
+
+            <button class="btn" onclick="createHearts()">ส่งความรักเพิ่ม 💖</button>
+        </div>
+    </div>
+
+    <script>
+        function openCard() {
+            const envelope = document.getElementById('envelope');
+            const envelopeWrapper = document.getElementById('envelopeWrapper');
+            const card = document.getElementById('birthdayCard');
+
+            envelope.classList.add('open');
+            
+            setTimeout(() => {
+                envelopeWrapper.style.display = 'none';
+                card.classList.add('show');
+                startHeartEffect();
+            }, 800);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = ['💖', '💕', '🎂', '✨', '🌸'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        function startHeartEffect() {
+            setInterval(createHeart, 400);
+        }
+
+        function createHearts() {
+            for(let i = 0; i < 15; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>
