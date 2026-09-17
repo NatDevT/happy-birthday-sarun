@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 1. เปลี่ยนชื่อที่แสดงบนแถบเบราว์เซอร์ -->
     <title>Happy Birthday To Sarun 🎂💖</title>
 
-    <!-- 2. เปลี่ยนชื่อหัวข้อตัวหนาเมื่อส่งลิงก์ใน LINE -->
     <meta property="og:title" content="Happy Birthday To Sarun 🎂💖">
-    
-    <!-- 3. เปลี่ยนข้อความบรรยายสั้นๆ บรรทัดล่างเมื่อส่งใน LINE -->
     <meta property="og:description" content="มีของขวัญเค้กวันเกิดน่ารักๆ มาให้ ลองกดเข้ามาดูสิ 🎁✨">
     
     <style>
@@ -27,6 +23,42 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
         }
+
+        /* หน้าต่างบังคับกดยืนยันบนมือถือ */
+        #startOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 182, 193, 0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            cursor: pointer;
+            padding: 20px;
+            text-align: center;
+        }
+        .start-btn {
+            background: #ff4757;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.4);
+            margin-top: 15px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         .container {
             text-align: center;
             padding: 20px;
@@ -34,7 +66,6 @@
             width: 90%;
         }
         
-        /* สไตล์และการเคลื่อนไหวของปุ่มวิดีโอเค้ก */
         .cake-wrapper {
             cursor: pointer;
             margin-bottom: 20px;
@@ -53,7 +84,6 @@
             object-fit: cover;
         }
 
-        /* การ์ดอวยพร */
         .card {
             background: rgba(255, 255, 255, 0.95);
             padding: 30px;
@@ -102,11 +132,7 @@
             box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
             transition: background 0.3s;
         }
-        .btn:hover {
-            background: #ff4757;
-        }
 
-        /* หัวใจและเค้กลอย */
         .floating-heart {
             position: fixed;
             animation: floatUp 4s linear infinite;
@@ -121,24 +147,28 @@
 </head>
 <body>
 
-    <!-- แท็กเล่นเพลง -->
-    <audio id="bgMusic" loop preload="auto">
+    <!-- หน้าต่างบังคับการสัมผัสจอสำหรับมือถือ -->
+    <div id="startOverlay">
+        <h2 style="color: #ff4757; margin-bottom: 10px;">🎁 มีของขวัญวันเกิดส่งมาให้ 🎂</h2>
+        <p style="color: #555; font-size: 0.95rem; margin-bottom: 10px;">(อย่าลืมปิดสวิตช์โหมดเงียบ / ปิด Silent Mode น้า)</p>
+        <button class="start-btn" onclick="initAudio()">แตะตรงนี้เพื่อเปิดเลย! 🎵</button>
+    </div>
+
+    <!-- ไฟล์เพลง (ใส่ Direct Link หรือชื่อไฟล์ที่วางคู่กับ index.html) -->
+    <audio id="bgMusic" loop playsinline preload="auto">
         <source src="nastelbom-happy-birthday-495860.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container">
-        <!-- ปุ่มเค้กวันเกิดหน้าแรก -->
         <div class="cake-wrapper" id="cakeWrapper" onclick="openCard()">
-            <video id="myCakeVideo" autoplay loop muted playsinline class="cake-video" style="width:100%; max-width:380px; border-radius:20px;">
+            <video id="myCakeVideo" autoplay loop muted playsinline class="cake-video">
                 <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
             </video>
             <p style="margin-top: 15px; color: #ff4757; font-weight: bold; font-size: 1.1rem;">
-                ลองกดที่เค้กดูสิ 🎂✨
+                ลองกดดูสิ 🎂✨
             </p>
         </div>
-        
 
-        <!-- การ์ดข้อความอวยพร -->
         <div class="card" id="birthdayCard">
             <video autoplay loop muted playsinline class="profile-video">
                 <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
@@ -161,34 +191,28 @@
     <script>
         const bgMusic = document.getElementById('bgMusic');
 
-        // ฟังก์ชันสั่งเล่นเพลง
-        function playAudio() {
-            if (bgMusic && bgMusic.paused) {
+        function initAudio() {
+            // ปลดล็อกระบบ Audio ของเบราว์เซอร์มือถือ
+            if (bgMusic) {
                 bgMusic.play().then(() => {
-                    // ลบ Event Listener ออกเมื่อเพลงเริ่มเล่นแล้ว
-                    document.removeEventListener('click', playAudio);
-                    document.removeEventListener('touchstart', playAudio);
-                }).catch(error => {
-                    console.log("Autoplay was blocked:", error);
+                    document.getElementById('startOverlay').style.display = 'none';
+                }).catch(err => {
+                    console.log("Audio play failed: ", err);
+                    document.getElementById('startOverlay').style.display = 'none';
                 });
+            } else {
+                document.getElementById('startOverlay').style.display = 'none';
             }
         }
-
-        // 1. พยายามสั่งเล่นทันทีที่โหลดหน้าเว็บ
-        window.addEventListener('DOMContentLoaded', () => {
-            playAudio();
-        });
-
-        // 2. ดักจับการแตะ/คลิกครั้งแรกทุกตำแหน่งบนหน้าจอเพื่อบังคับเล่นเพลงทันที
-        document.addEventListener('click', playAudio);
-        document.addEventListener('touchstart', playAudio);
 
         function openCard() {
             const cakeWrapper = document.getElementById('cakeWrapper');
             const card = document.getElementById('birthdayCard');
 
-            // บังคับสั่งเล่นเพลงอีกครั้งเมื่อกดเค้ก
-            playAudio();
+            // บังคับเล่นเพลงอีกครั้ง
+            if (bgMusic && bgMusic.paused) {
+                bgMusic.play();
+            }
 
             cakeWrapper.style.display = 'none';
             card.classList.add('show');
