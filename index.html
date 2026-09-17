@@ -25,7 +25,8 @@
             max-width: 500px;
             width: 90%;
         }
-        /* ปุ่มรูปเค้กหน้าแรก */
+        
+        /* สไตล์และการเคลื่อนไหวของปุ่มวิดีโอเค้ก */
         .cake-wrapper {
             cursor: pointer;
             margin-bottom: 20px;
@@ -33,17 +34,15 @@
             transition: transform 0.3s ease;
         }
         .cake-wrapper:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
         }
-        .cake-img {
-            width: 200px;
+        .cake-video {
+            width: 100%;
+            max-width: 380px;
             height: auto;
-            filter: drop-shadow(0 10px 15px rgba(255, 107, 129, 0.4));
-            animation: floatCake 2.5s infinite ease-in-out;
-        }
-        @keyframes floatCake {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 107, 129, 0.4);
+            object-fit: cover;
         }
 
         /* การ์ดอวยพร */
@@ -62,14 +61,15 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .profile-img {
-            width: 160px;
-            height: 160px;
+        .profile-video {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
             border-radius: 20px;
-            object-fit: cover;
             border: 4px solid #ff6b81;
             margin-bottom: 15px;
             box-shadow: 0 8px 20px rgba(255, 107, 129, 0.3);
+            object-fit: cover;
         }
         h1 {
             color: #ff4757;
@@ -113,10 +113,12 @@
 </head>
 <body>
 
-<div class="container">
-        <!-- เปลี่ยนจากซองจดหมายเป็นปุ่มเค้กวันเกิด -->
+    <div class="container">
+        <!-- ปุ่มเค้กวันเกิดหน้าแรก (ดึงไฟล์วิดีโอ MP4) -->
         <div class="cake-wrapper" id="cakeWrapper" onclick="openCard()">
-            <img src="https://drive.google.com/file/d/1vHPnOV518IEHHmBwEZd5MhqVLNtL4ouV/view?usp=sharing" alt="เค้กวันเกิด" class="cake-img">
+            <video autoplay loop muted playsinline class="cake-video">
+                <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
+            </video>
             <p style="margin-top: 15px; color: #ff4757; font-weight: bold; font-size: 1.1rem;">
                 ลองกดที่เค้กดูสิครับ 🎂✨
             </p>
@@ -124,7 +126,9 @@
 
         <!-- การ์ดข้อความอวยพร -->
         <div class="card" id="birthdayCard">
-            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Food/Birthday%20Cake.png" alt="เค้กวันเกิด 3D" class="profile-img">
+            <video autoplay loop muted playsinline class="profile-video">
+                <source src="A vibrant animated 3D-rendered birthday cake.mp4" type="video/mp4">
+            </video>
             
             <h1>Happy Birthday นะครับ 🎂✨</h1>
             
@@ -156,7 +160,6 @@
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
             
-            // สุ่มหัวใจ เค้ก และประกายดาว
             const icons = ['💖', '🎂', '💕', '🍰', '✨', '🧁'];
             heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
             
